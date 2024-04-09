@@ -18,6 +18,30 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Style de la table */
+.table {
+  width: 100%; /* La table occupe toute la largeur disponible */
+  border-collapse: collapse; /* Fusionner les bordures de la table */
+}
+
+/* Style des cellules de la table */
+.table td, .table th {
+  border: 1px solid #dddddd; /* Bordure de 1 pixel solide */
+  padding: 8px; /* Espacement intérieur des cellules */
+  text-align: left; /* Alignement du texte à gauche */
+}
+
+/* Style de l'en-tête de la table */
+.table th {
+  background-color: #f2f2f2; /* Couleur de fond de l'en-tête */
+}
+
+/* Alternance de couleur de fond pour les lignes */
+.table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Couleur de fond des lignes paires */
+}
+
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
