@@ -1,8 +1,9 @@
+import {addDragon, deleteDragon, setDragonError, setDragonName} from "../store/action/index.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectDragonError, selectDragonName, selectDragons} from "../store/selectors/index.js";
-import {addDragon, deleteDragon, setDragonError, setDragonName} from "../store/action/index.js";
 
-const Dragons = () => {
+const DragonPage = () => {
+
     const dispatch = useDispatch()
 
     const name = useSelector(selectDragonName)
@@ -15,21 +16,21 @@ const Dragons = () => {
 
     const handleDragonSubmit = () => {
         if (name.trim() === '' || dragons.find((dragon) => dragon.name.toLowerCase() === name.toLowerCase().trim()) !== undefined) {
-            dispatch(setDragonError('invalid Data'))
+            dispatch(setDragonError('Invalid Data'))
             return;
         }
         dispatch(addDragon())
     }
 
     return (
-        <main>
-            <header>
+        <div className={'mainPage'}>
+            <div className={"headerPage"}>
                 <h1>Dragon List</h1>
                 <p>Number of dragons : {dragons.length}</p>
-            </header>
+            </div>
             <div id={'content'}>
                 <div id={"inputGroup"}>
-                    <input type={"text"} onChange={handleChange} value={name}/>
+                    <input type={"text"} placeholder={'Dragon name'} onChange={handleChange} value={name}/>
                     <button onClick={handleDragonSubmit}>Add</button>
                     {error !== "" && <p style={{color: "red"}}>{error}</p>}
                 </div>
@@ -48,8 +49,8 @@ const Dragons = () => {
                     }
                 </div>
             </div>
-        </main>
-    )
-}
+        </div>
+    );
+};
 
-export default Dragons;
+export default DragonPage;

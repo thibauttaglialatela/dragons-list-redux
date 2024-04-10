@@ -1,9 +1,15 @@
-import {legacy_createStore as createStore} from "redux";
+import {legacy_createStore as createStore, combineReducers} from "redux";
 import dragonReducer from "./reducer/dragonReducer.js";
+import knightReducer from "./reducer/knightReducer.js";
 import {composeWithDevTools} from "redux-devtools-extension";
+import duoDragonKnightReducer from "./reducer/duoDragonKnightReducer.js";
 
 const store = createStore(
-    dragonReducer,
+    combineReducers({
+        dragonReducer: dragonReducer,
+        knightReducer: knightReducer,
+        duoDragonKnightReducer: duoDragonKnightReducer
+    }),
     composeWithDevTools()
 )
 

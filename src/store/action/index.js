@@ -2,8 +2,7 @@ import {
     DRAGON_ADD,
     DRAGON_DELETE,
     DRAGON_SET_ERROR,
-    DRAGON_SET_VALUE,
-    KNIGHT_ADD,
+    DRAGON_SET_VALUE, KNIGHT_ADD, KNIGHT_DELETE, KNIGHT_SET_ERROR,
     KNIGHT_SET_VALUE
 } from "../constant/action-type.js";
 
@@ -30,17 +29,21 @@ export const deleteDragon = (payload) => {
     }
 }
 
-export const addKnight = () => ({
-    type: KNIGHT_ADD
-});
-
-export const setKnightName = (payload) => ({
+export const setKnightInfo = (payload) => ({
     type: KNIGHT_SET_VALUE,
     payload
-});
-
-export const setKnightAge = (payload) => ({
-
 })
 
+export const addKnight = () => ({
+    type: KNIGHT_ADD
+})
 
+export const deleteKnight = (payload) => ({
+    type: KNIGHT_DELETE,
+    payload
+})
+
+export const setKnightError = (payload) => ({
+    type: KNIGHT_SET_ERROR,
+    payload
+})

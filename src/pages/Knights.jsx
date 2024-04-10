@@ -1,41 +1,58 @@
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {selectKnightAge, selectKnightError, selectKnightName, selectKnights} from "../store/selectors/index.js";
+import {selectKnightError, selectKnights, selectNewKnight} from "../store/selectors/index.js";
+import {addKnight, deleteKnight, setKnightError, setKnightInfo} from "../store/action/index.js";
 
-const Knights = () => {
-    const dispatch = useDispatch();
+const KnightPage = () => {
+    const dispatch = useDispatch()
+    const knight = useSelector(selectNewKnight)
+    const knights = useSelector(selectKnights)
+    const error = useSelector(selectKnightError)
 
-    const name = useSelector(selectKnightName);
-    const age = useSelector(selectKnightAge);
-    const knights = useSelector(selectKnights);
-    const error = useSelector(selectKnightError);
-
-    const handleChange = e => {
-        dispatch(setKnightName(e.target.value), setKnightAge(e.target.value))
-    }
-
-    const handleKnightSubmit = () => {
-        if (name.trim() === '' || knights.find(knight => knight.name.toLowerCase().trim() === name.toLowerCase().trim() !== undefined)) {
-            dispatch(setKnightError('Invalid data'))
+    const handleChange = (e) => {
+        const {name, value} = e.target
+        if(name === 'age' && !value.match(/^[0-9]*$/)) {
             return;
         }
-        if (!isInteger(age)) {
-            dispatch(setKnightError('age must be an integer'))
-            return;
+        dispatch(setKnightInfo({name, value}))
+    }
+
+    const handleSubmit = () => {
+        if(knight.age <= 0 || knight.age === '') {
+            dispatch(setKnightError("Please enter a valid age"))
+            return
+        }
+
+        if(knight.name.trim() === '' || knights.find((kni) => kni.name.toLowerCase() === knight.name.toLowerCase().trim()) !== undefined) {
+            dispatch(setKnightError("Please enter a valid and unique name"))
+            return
         }
         dispatch(addKnight())
     }
 
     return (
-        <main>
-            <header>
-                <h1>The knights of the round table</h1>
-                <p>Number of knights: {knights.length}</p>
-            </header>
+        <div className={'mainPage'}>
+            <div className={"headerPage"}>
+                <h1>Knight List</h1>
+                <p>Number of knights : {knights.length}</p>
+            </div>
             <div id={'content'}>
                 <div id={"inputGroup"}>
-                    <input type={"text"} onChange={handleChange} value={name}/>
-                    <input type={"number"} onChange={handleChange} value={age}/>
-                    <button onClick={handleKnightSubmit}>Add</button>
+                    <input
+                        type={"text"}
+                        name={'name'}
+                        value={knight.name}
+                        placeholder={'Knight name'}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type={"text"}
+                        name={'age'}
+                        value={knight.age}
+                        placeholder={'Knight age'}
+                        onChange={handleChange}
+                    />
+                    <button onClick={handleSubmit}>Add</button>
                     {error !== "" && <p style={{color: "red"}}>{error}</p>}
                 </div>
                 <div id={"list"}>
@@ -43,17 +60,20 @@ const Knights = () => {
                     {
                         knights.length > 0 ?
                             knights.map(knight =>
-                            <div key={knight.id}>
-                                <span>{knight.name}</span>
-                                <span>age: {knight.age} ans</span>
-                            </div>
-                            ):
-                            <p>No knights</p>
+                                <div key={knight.id}>
+                                    <span>{knight.name}</span>
+                                    |
+                                    <span>{knight.age}</span>
+                                    <button onClick={() => dispatch(deleteKnight(knight.id))}>X</button>
+                                </div>
+                            )
+                            :
+                            <p>No knight</p>
                     }
                 </div>
-                </div>
-        </main>
-)
-}
+            </div>
+        </div>
+    );
+};
 
-export default Knights;
+export default KnightPage;
